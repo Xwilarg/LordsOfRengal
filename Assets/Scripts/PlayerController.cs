@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     private Rigidbody rb;
     private Animator anim;
@@ -11,6 +12,9 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        if (!isLocalPlayer)
+            return;
+        GetComponentInChildren<HeadController>().enabled = true;
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         hc = GetComponentInChildren<HeadController>();
@@ -18,6 +22,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!isLocalPlayer)
+            return;
+        // Movements and animations
         float hor = Input.GetAxis("Horizontal");
         float ver = Input.GetAxis("Vertical");
         anim.SetBool("IsRunning", hor != 0f || ver != 0f);
