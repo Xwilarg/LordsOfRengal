@@ -5,6 +5,7 @@ public class HeadController : MonoBehaviour
     private void Start() // Only enabled if is the local player
     {
         GetComponent<Camera>().enabled = true;
+        GetComponent<AudioListener>().enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         transform.parent.GetComponent<SkinnedMeshRenderer>().enabled = false;
     }

@@ -22,15 +22,16 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer)
-            return;
-        // Movements and animations
-        float hor = Input.GetAxis("Horizontal");
-        float ver = Input.GetAxis("Vertical");
-        anim.SetBool("IsRunning", hor != 0f || ver != 0f);
-        Vector3 movement = hc.transform.forward * ver * speed;
-        movement += hc.transform.right * hor * speed;
-        movement.y = 0f;
-        rb.velocity = movement;
+        if (isLocalPlayer)
+        {
+            // Movements and animations
+            float hor = Input.GetAxis("Horizontal");
+            float ver = Input.GetAxis("Vertical");
+            Vector3 movement = hc.transform.forward * ver * speed;
+            movement += hc.transform.right * hor * speed;
+            movement.y = 0f;
+            rb.velocity = movement;
+        }
+        anim.SetBool("IsRunning", rb.velocity != Vector3.zero);
     }
 }
