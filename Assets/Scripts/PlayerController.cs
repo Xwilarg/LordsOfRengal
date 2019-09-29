@@ -41,12 +41,18 @@ public class PlayerController : NetworkBehaviour
 
             if (Input.GetButtonDown("Fire1"))
             {
-                GameObject bullet = Instantiate(bulletPrefab, gunEnd.transform.position, gunEnd.transform.rotation);
-                bullet.GetComponent<Rigidbody>().AddForce(gunEnd.transform.forward * 40f, ForceMode.Impulse);
-                Destroy(bullet, 2000f); // 2sec
-                NetworkServer.Spawn(bullet);
+                CmdShoot();
             }
         }
         anim.SetBool("IsRunning", rb.velocity != Vector3.zero);
+    }
+
+    [Command]
+    private void CmdShoot()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, gunEnd.transform.position, gunEnd.transform.rotation);
+        bullet.GetComponent<Rigidbody>().AddForce(gunEnd.transform.forward * 40f, ForceMode.Impulse);
+        Destroy(bullet, 2000f); // 2sec
+        NetworkServer.Spawn(bullet);
     }
 }

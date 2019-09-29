@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
     private Rigidbody rb;
 
@@ -12,6 +13,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!isServer)
+            return;
         if (!collision.collider.CompareTag("Player"))
         {
             Rigidbody otherRb = collision.collider.GetComponent<Rigidbody>();
