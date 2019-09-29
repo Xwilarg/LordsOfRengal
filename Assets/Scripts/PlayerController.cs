@@ -5,6 +5,11 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Animator))]
 public class PlayerController : NetworkBehaviour
 {
+    [SerializeField]
+    private GameObject gunEnd;
+    [SerializeField]
+    private GameObject bulletPrefab;
+
     private Rigidbody rb;
     private Animator anim;
     private HeadController hc;
@@ -33,6 +38,14 @@ public class PlayerController : NetworkBehaviour
             movement += transform.right * hor * speed;
             movement.y = 0f;
             rb.velocity = movement;
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                GameObject bullet = Instantiate(bulletPrefab, gunEnd.transform.position, gunEnd.transform.rotation);
+                bullet.GetComponent<Rigidbody>().AddForce(gunEnd.transform.forward * 40f, ForceMode.Impulse);
+                Destroy(bullet, 2000f); // 2sec
+                NetworkServer.Spawn(bullet);
+            }
         }
         anim.SetBool("IsRunning", rb.velocity != Vector3.zero);
     }
