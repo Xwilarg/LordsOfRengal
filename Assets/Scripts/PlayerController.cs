@@ -27,8 +27,10 @@ public class PlayerController : NetworkBehaviour
             // Movements and animations
             float hor = Input.GetAxis("Horizontal");
             float ver = Input.GetAxis("Vertical");
-            Vector3 movement = hc.transform.forward * ver * speed;
-            movement += hc.transform.right * hor * speed;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, hc.transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z); // Rotate towards where the head is looking
+            hc.transform.rotation = Quaternion.Euler(hc.transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, hc.transform.rotation.eulerAngles.z);
+            Vector3 movement = transform.forward * ver * speed;
+            movement += transform.right * hor * speed;
             movement.y = 0f;
             rb.velocity = movement;
         }
